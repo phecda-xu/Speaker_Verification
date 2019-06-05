@@ -2,11 +2,28 @@ import tensorflow as tf
 import numpy as np
 import os
 import librosa
-import matplotlib.pyplot as plt
 import random
 from configuration import get_config
 
 config = get_config()
+
+
+def audioFeature(utter_path):
+    utterances_spec = []
+    utter, sr = librosa.core.load(utter_path, config.sr)            # load utterance audio
+
+    S = librosa.core.stft(y=utter, n_fft=config.nfft,
+                          win_length=int(config.window * sr), hop_length=int(config.hop * sr))
+    S = np.abs(S) ** 2
+    mel_basis = librosa.filters.mel(sr=config.sr, n_fft=config.nfft, n_mels=40)
+    S = np.log10(np.dot(mel_basis, S) + 1e-6)                       # log mel spectrogram of utterances
+    utterances_spec.append(S[:, :config.tisv_frame])                # first 180 frames of partial utterance
+    utterances_spec.append(S[:, -config.tisv_frame:])               # last 180 frames of partial utterance
+    utterances_spec = np.array(utterances_spec)
+    utterances_spec = np.concatenate(utterances_spec, axis=1)
+    utterances_spec = utterances_spec.reshape([1, utterances_spec.shape[0], utterances_spec.shape[1]])
+    utterances_spec = np.transpose(utterances_spec, axes=(2, 0, 1))
+    return utterances_spec
 
 
 def keyword_spot(spec):
@@ -28,7 +45,6 @@ def random_batch(speaker_num=config.N, utter_num=config.M, shuffle=True, noise_f
         utter_start : start point of slicing (TI-SV)
     :return: 1 random numpy batch (frames x batch(NM) x n_mels)
     """
-
     # data path
     if config.train:
         path = config.train_path
@@ -64,6 +80,7 @@ def random_batch(speaker_num=config.N, utter_num=config.M, shuffle=True, noise_f
     # TI-SV
     else:
         np_file_list = os.listdir(path)
+
         total_speaker = len(np_file_list)
 
         if shuffle:
