@@ -15,7 +15,6 @@ class TISVNet(object):
                                                 dtype=tf.float32,
                                                 name="fingerprint_input")
     def creat_model(self):
-
         with tf.variable_scope("lstm"):
             lstm_cells = [rnn.LSTMCell(num_units=config.hidden, num_proj=config.proj) for i in
                           range(config.num_layer)]
@@ -159,8 +158,13 @@ def main(train=True):
 
 if __name__ == "__main__":
 
-    main(train=config.train)
-
+    # main(train=config.train)
+    net = TISVNet()
+    input = random_batch(1,1)
+    model_path = '/run/user/1001/gvfs/smb-share:server=fs.lm,share=home/xuhongyang/speaker_verification/dataSet_zy/tisv_model/./Check_Point/model.ckpt-0'
+    resu = net.layer_out(input,model_path)
+    print(resu)
+    print(resu.shape)
 
 
 
