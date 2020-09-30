@@ -1,10 +1,7 @@
 import argparse
-import numpy as np
 
 parser = argparse.ArgumentParser()    # make parser
 
-
-data_path = "/run/user/1001/gvfs/smb-share:server=fs.lm,share=home/xuhongyang/speaker_verification/dataSet_zy"
 
 # get arguments
 def get_config():
@@ -21,18 +18,20 @@ def str2bool(v):
     else:
         raise argparse.ArgumentTypeError('Boolean value expected.')
 
+
 # Data Preprocess Arguments
 data_arg = parser.add_argument_group('Data')
-data_arg.add_argument('--noise_path', type=str, default=data_path + '/noise', help="noise dataset directory")
-data_arg.add_argument('--train_path', type=str, default=data_path + '/train_tisv', help="train dataset directory")
-data_arg.add_argument('--test_path', type=str, default=data_path + '/test_tisv', help="test dataset directory")
-data_arg.add_argument('--tdsv', type=str2bool, default=False, help="text dependent or not")
-data_arg.add_argument('--sr', type=int, default=8000, help="sampling rate")
+data_arg.add_argument('--audio_path',
+                      type=str,
+                      default='aishell_1/data_aishell/wav',
+                      help="train dataset directory")
+data_arg.add_argument('--noise_path', type=str, default='data/noise', help="noise dataset directory")
+data_arg.add_argument('--feature_path', type=str, default="data/", help="train dataset directory")
+data_arg.add_argument('--sr', type=int, default=16000, help="sampling rate")
 data_arg.add_argument('--nfft', type=int, default=512, help="fft kernel size")
 data_arg.add_argument('--window', type=int, default=0.025, help="window length (ms)")
 data_arg.add_argument('--hop', type=int, default=0.01, help="hop size (ms)")
-data_arg.add_argument('--tdsv_frame', type=int, default=80, help="frame number of utterance of tdsv")
-data_arg.add_argument('--tisv_frame', type=int, default=180, help="max frame number of utterances of tdsv")
+data_arg.add_argument('--tisv_frame', type=int, default=180, help="max frame number of utterances of tisv")
 
 # Model Parameters
 model_arg = parser.add_argument_group('Model')
@@ -40,8 +39,8 @@ model_arg.add_argument('--hidden', type=int, default=128, help="hidden state dim
 model_arg.add_argument('--proj', type=int, default=64, help="projection dimension of lstm")
 model_arg.add_argument('--num_layer', type=int, default=3, help="number of lstm layers")
 model_arg.add_argument('--restore', type=str2bool, default=False, help="restore model or not")
-model_arg.add_argument('--model_path', type=str, default=data_path + '/tisv_model', help="model directory to save or load")
-model_arg.add_argument('--model_num', type=int, default=0, help="number of ckpt file to load")
+model_arg.add_argument('--model_path', type=str, default='models/', help="model directory to save or load")
+model_arg.add_argument('--model_num', type=int, default=4, help="number of ckpt file to load")
 
 # Training Parameters
 train_arg = parser.add_argument_group('Training')

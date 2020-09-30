@@ -1,0 +1,6 @@
+-i https://mirrors.aliyun.com/pypi/simple/
+llvmlite==0.31.0
+librosa
+tqdm
+soundfile
+

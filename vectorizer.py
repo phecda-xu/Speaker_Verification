@@ -48,7 +48,7 @@ def layer_out(filepath):
 
 if __name__ == "__main__":
 
-    d_array = layer_out("p225_012.wav")
+    d_array = layer_out("BAC009S0002W0122.wav")
     print(d_array)
     print(d_array.shape)
     print(1)
