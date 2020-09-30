@@ -3,7 +3,7 @@ import time
 import numpy as np
 import tensorflow as tf
 from tensorflow.contrib import rnn
-from configuration import get_config
+from configuration import get_config, parser
 from utils import random_batch, normalize, similarity, loss_cal, optim
 
 config = get_config()
@@ -157,7 +157,8 @@ def main(train=True):
 
 
 if __name__ == "__main__":
-    main(train=config.train)
+    args = parser.parse_args()
+    main(train=args.train)
     # net = TISVNet()
     # input = random_batch(1,1)
     # model_path = 'models/Check_Point/model.ckpt-0'

@@ -27,6 +27,8 @@ def save_spectrogram_tisv(args):
             for utter_name in os.listdir(speaker_path):
                 utter_path = os.path.join(speaker_path, utter_name)  # path of each utterance
                 utter, sr = librosa.core.load(utter_path, args.sr)  # load utterance audio
+                if len(utter) < 16000:
+                    continue
                 S = librosa.core.stft(y=utter, n_fft=args.nfft,
                                       win_length=int(args.window * sr), hop_length=int(args.hop * sr))
                 S = np.abs(S) ** 2
