@@ -25,15 +25,17 @@ $ pip install -r requirements.txt
 - example aishell_1
 
 ```
-将数据集中每个人的音频数据（audio）提特征(feature)，然后合并到一个`.npy`文件中保存:
-$ sh run_data.sh --audio_path '' --feature_path ''
+目的将数据集中每个人的音频数据（audio）提特征(feature)，然后合并到一个`.npy`文件中保存；
+修改run_data.sh，设置--audio_path '' --feature_path ''两个参数的值
+$ sh run_data.sh 
 ```
 
 ## 三、训练
 
 ```
-训练模型,指定保存音频特征的位置，设置训练模式为True:
-$ sh run_train.sh --feature_path '' --train True
+训练模型,指定音频特征保存的位置和设置训练模式；
+修改run_train.sh, 设置 --feature_path '' --train True 两个参数的值
+$ sh run_train.sh
 ```
 
 ### 3.1 net
