@@ -1,61 +1,65 @@
 # GE2Eloss speaker verification
 
-## column
+## 目录
 
-- environment
-- data prepare
-- train and d_vector extract
-- experiments
+- 一、环境配置（environment）
+- 二、数据准备（data prepare）
+- 三、训练 
+- 四、d_vector提取
 
 
-## environment
+## 一、环境配置 environment
 
-- virtualenv
+- virtualenv 建虚拟环境
 - tensorflow > 1.13.1
 - python3.5
-- require
+- requirements 安装依赖
 
 ```
 $ pip install -r requirements.txt
 ```
 
 
-## data prepare
+## 二、数据准备 data prepare
 
 - example aishell_1
 
 ```
-$ python3.5 data_preprocess.py
+将数据集中每个人的音频数据（audio）提特征(feature)，然后合并到一个`.npy`文件中保存:
+$ sh run_data.sh --audio_path '' --feature_path ''
 ```
 
-## 训练
-
-TODO
-
-### net
+## 三、训练
 
 ```
-model.py
-```
-### 参数设置
-
-```
-configuration.py
+训练模型,指定保存音频特征的位置，设置训练模式为True:
+$ sh run_train.sh --feature_path '' --train True
 ```
 
-### 训练及测试数据预处理
+### 3.1 net
 
 ```
-data_preprocess.py
+网络结构定义在model.py文件中，同时包含了训练函数 train()
+```
+### 3.2 参数设置
+
+```
+configuration.py 设置参数的位置，可以直接修改内容，设定后用python执行相关的程序，也可以在shell脚本中进行具体参数指定；
 ```
 
-### 功能函数实现
+### 3.3 训练数据及测试数据的预处理
+
+```
+data_preprocess.py 将音频数据转化为特征数据
+```
+
+### 3.4 功能函数实现
 
 ```
 utils.py
 ```
 
-## 提取d_vector
+## 四、提取d_vector
 
 输入：wavfile 
 
