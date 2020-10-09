@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-python model.py --train True
+python model.py --train True --feature_path 'data/'
